@@ -77,7 +77,7 @@ Hardware ceilings are based on measured values from Luo et al. (arXiv:2402.13499
 | L1 bandwidth | 121.2 B/clk/SM (FP32.v4) | Table V |
 | L2 bandwidth | 1708.0 B/clk (FP32.v4) | Table V |
 | DRAM bandwidth | 1008 GB/s | Official spec |
-| Compute peak | 128 SM × 4 schedulers × 2.52 GHz | Official spec |
+| Compute peak | 128 SM × 4 schedulers × 1 inst/cycle × 2.52 GHz | Official spec |
  
 Metrics collected via Nsight Compute:
  
@@ -118,7 +118,7 @@ cd Instruction_Roofline_Analysis
 /bin/bash experiment.sh
 
 #6. Insert Kernel runtime
-Insert kernel runtime(result/*_results.csv) measured by experiment.sh into Roofline/draw_Roofline.py
+Insert kernel runtime(result/*_result.csv) measured by experiment.sh into Roofline/draw_Roofline.py
 
 # 7. Draw Roofline
 python3 ./Roofline/draw_Roofline.py
