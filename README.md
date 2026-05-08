@@ -32,7 +32,7 @@ Three sparse matrices in `.smtx` format from the DLMC dataset were used. Matrix 
 ---
 ## 3. Methodology
 
-This project implements the Instruction Roofline model proposed by Ding & Williams (IPDPSW 2019).
+This project implements the Instruction Roofline model proposed by Ding & Williams (PMBS 2019).
 ![cuSPARSE Roofline](figure/Instruction_Roofline.png)
 
 ### Axes
