@@ -5,7 +5,7 @@
 - Analyzes CSR-based SpMM kernels provided by cuSPARSE and Ginkgo using the Instruction Roofline model
 - The following sources were used to collect metrics and hardware constants required for building a hierarchical Instruction Roofline on the RTX 4090:
   - (1) Official hardware documentation
-  - (2) Benchmark paper (Luo et al., arXiv:2402.13499)
+  - (2) Benchmark paper (Luo et al., IPDPS 2024, arXiv:2402.13499)
   - (3) Nsight Compute 
 - Analysis goes beyond simple runtime comparison by considering L1/L2/DRAM transactions, cache reuse, memory access patterns, and thread predication
 ---
@@ -183,5 +183,5 @@ This repository presents an improved methodology with corrected hardware constan
 ## 10. References
  
 - Nan Ding, Samuel Williams. "An Instruction Roofline Model for GPUs." IPDPSW, 2019.
-- Weile Luo et al. "Benchmarking and Dissecting the Nvidia Hopper GPU Architecture." arXiv:2402.13499, 2024.
+- Weile Luo et al. "Benchmarking and Dissecting the Nvidia Hopper GPU Architecture." IPDPS 2024, arXiv:2402.13499, 2024.
 - Eunji Lee, Yoonsang Han, Gordon Euhyun Moon. "Accelerated Block-Sparsity-Aware Matrix Reordering for Leveraging Tensor Cores in Sparse Matrix-Multivector Multiplication." Euro-PAR 2024. https://doi.org/10.5281/zenodo.11579181
