@@ -109,7 +109,7 @@ Metrics collected via Nsight Compute:
 git clone https://github.com/acornjelly2205/Instruction_Roofline_Analysis.git
 cd Instruction_Roofline_Analysis
  
-# 3. Place your sparse matrix in .smtx format under dataset/
+# 3. Place your sparse matrix in `.smtx` format under `dataset/` and add the matrix file name to `experiment.sh`
  
 # 4. Build
 /bin/bash build.sh
@@ -118,7 +118,7 @@ cd Instruction_Roofline_Analysis
 /bin/bash experiment.sh
 
 #6. Insert Kernel runtime
-# Insert kernel runtime(result/*_result.csv) measured by experiment.sh into Roofline/draw_Roofline.py
+# Insert kernel runtime(`result/*_result.csv`) measured by `experiment.sh` into `Roofline/draw_Roofline.py`
 
 # 7. Draw Roofline
 python3 ./Roofline/draw_Roofline.py
