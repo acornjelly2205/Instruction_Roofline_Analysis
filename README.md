@@ -70,7 +70,7 @@ Vertical lines indicate theoretical Instruction Intensity bounds for different a
 
 ## 4. Metrics and Instruction Roofline
  
-Hardware ceilings are based on measured values from Luo et al. (arXiv:2402.13499), Table V.
+L1/L2 ceilings are based on measured throughput values reported by Luo et al., while the DRAM ceiling uses the official RTX 4090 peak memory bandwidth specification.
  
 | Parameter | Value | Source |
 |-----------|-------|--------|
