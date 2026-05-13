@@ -40,8 +40,8 @@ S_SMEM = 128
 BW_SMEM_TXN_S = (SMEM_BYTES_PER_CYCLE * SMEM_HZ) / S_SMEM
 
 # X축 범위(inst/TXN)
-AI_MIN, AI_MAX = 1e-2, 1e3
-X_OVERRIDE = (AI_MIN, AI_MAX)
+II_MIN, II_MAX = 1e-2, 1e3
+X_OVERRIDE = (II_MIN, II_MAX)
 Y_OVERRIDE = None  # (ymin, ymax) 수동 지정 원하면 값 넣기 (단위=GIPS)
 
 # =========================
@@ -57,29 +57,6 @@ os.makedirs(figure_dir, exist_ok=True)
 # =========================
 # ceiling & wall color
 # =========================
-
-# Color_setting = {
-#         "c1_ceiling": "black",
-#         "L1_ceiling": "#a6e467",
-#         "L2_ceiling": "#8767e4",
-#         "DRAM_ceiling": "#e46767",
-#         "global_memory_wall": "#e48f67",
-#         "c2_ceiling": "black",
-#         "SMEM_ceiling": "#67e4e4",
-#         "shared_memory_wall": "#67e4e4",
-# }
-
-# Color_setting = {
-#         "c1_ceiling": "black",
-#         "L1_ceiling": "black",
-#         "L2_ceiling": "black",
-#         "DRAM_ceiling": "black",
-#         "global_memory_wall": "#e48f67",
-#         "c2_ceiling": "black",
-#         "SMEM_ceiling": "black",
-#         "shared_memory_wall": "#67e4e4",
-# }
-
 
 Color_setting = {
     "c1_ceiling": "black",
@@ -135,10 +112,10 @@ def wall_y_max(x, bw_txn_per_s):
     return min(PEAK_GIPS, bw_txn_per_s * x / 1e9)
 
 def draw_global_cache_roofline(ax):
-    ai = np.logspace(math.log10(AI_MIN), math.log10(AI_MAX), 800)
-    y_dram = roofline_y_txn(BW_DRAM_TXN_S, PEAK_INST_PER_S, ai) / 1e9
-    y_l2   = roofline_y_txn(BW_L2_TXN_S,   PEAK_INST_PER_S, ai) / 1e9
-    y_l1   = roofline_y_txn(BW_L1_TXN_S,   PEAK_INST_PER_S, ai) / 1e9
+    ii = np.logspace(math.log10(II_MIN), math.log10(II_MAX), 800)
+    y_dram = roofline_y_txn(BW_DRAM_TXN_S, PEAK_INST_PER_S, ii) / 1e9
+    y_l2   = roofline_y_txn(BW_L2_TXN_S,   PEAK_INST_PER_S, ii) / 1e9
+    y_l1   = roofline_y_txn(BW_L1_TXN_S,   PEAK_INST_PER_S, ii) / 1e9
 
     knee_dram = knee_ai_txn(PEAK_INST_PER_S, BW_DRAM_TXN_S)
     knee_l2   = knee_ai_txn(PEAK_INST_PER_S, BW_L2_TXN_S)
@@ -154,18 +131,18 @@ def draw_global_cache_roofline(ax):
     })
 
     # 루프라인
-    ax.loglog(ai, y_dram, color=Color_setting["DRAM_ceiling"], lw=2.6, label="DRAM roof (GTXN/s slope)")
-    ax.loglog(ai, y_l2,   color=Color_setting["L2_ceiling"],   lw=2.6, label="L2 roof (GTXN/s slope)")
-    ax.loglog(ai, y_l1,   color=Color_setting["L1_ceiling"],   lw=2.6, label="L1 roof (GTXN/s slope)")
+    ax.loglog(ii, y_dram, color=Color_setting["DRAM_ceiling"], lw=2.6, label="DRAM roof (GTXN/s slope)")
+    ax.loglog(ii, y_l2,   color=Color_setting["L2_ceiling"],   lw=2.6, label="L2 roof (GTXN/s slope)")
+    ax.loglog(ii, y_l1,   color=Color_setting["L1_ceiling"],   lw=2.6, label="L1 roof (GTXN/s slope)")
 
-    # ax.text(AI_MIN * 1.5, BW_L1_TXN_S * AI_MIN * 1.5 / 1e9,
+    # ax.text(II_MIN * 1.5, BW_L1_TXN_S * II_MIN * 1.5 / 1e9,
     #         "L1", fontsize=10, color=Color_setting["L1_ceiling"], va='bottom')
-    # ax.text(AI_MIN * 1.5, BW_L2_TXN_S * AI_MIN * 1.5 / 1e9,
+    # ax.text(II_MIN * 1.5, BW_L2_TXN_S * II_MIN * 1.5 / 1e9,
     #         "L2", fontsize=10, color=Color_setting["L2_ceiling"], va='bottom')
-    # ax.text(AI_MIN * 1.5, BW_DRAM_TXN_S * AI_MIN * 1.5 / 1e9,
+    # ax.text(II_MIN * 1.5, BW_DRAM_TXN_S * II_MIN * 1.5 / 1e9,
     #         "DRAM", fontsize=10, color=Color_setting["DRAM_ceiling"], va='bottom')
 
-    ax.hlines(PEAK_GIPS, xmin=knee_l1, xmax=AI_MAX,
+    ax.hlines(PEAK_GIPS, xmin=knee_l1, xmax=II_MAX,
             linestyles="-", color=Color_setting["c1_ceiling"], lw=2.4, label="Compute peak [GIPS]")
     # memory access pattern
 
@@ -202,8 +179,8 @@ def draw_global_cache_roofline(ax):
 
 
 def draw_shared_roofline(ax):
-    ai = np.logspace(math.log10(AI_MIN), math.log10(AI_MAX), 800)
-    y_shared = roofline_y_txn(BW_SMEM_TXN_S, PEAK_INST_PER_S, ai) / 1e9
+    ii = np.logspace(math.log10(II_MIN), math.log10(II_MAX), 800)
+    y_shared = roofline_y_txn(BW_SMEM_TXN_S, PEAK_INST_PER_S, ii) / 1e9
     knee_shared = knee_ai_txn(PEAK_INST_PER_S, BW_SMEM_TXN_S)
 
     plt.rcParams.update({
@@ -216,10 +193,10 @@ def draw_shared_roofline(ax):
     })
 
     # 루프라인
-    ax.loglog(ai, y_shared, color=Color_setting["SMEM_ceiling"], lw=2.6, label="Shared Memory roof (GTXN/s slope)")
-    # ax.text(AI_MIN * 1.5, BW_SMEM_TXN_S * AI_MIN * 1.5 / 1e9,
+    ax.loglog(ii, y_shared, color=Color_setting["SMEM_ceiling"], lw=2.6, label="Shared Memory roof (GTXN/s slope)")
+    # ax.text(II_MIN * 1.5, BW_SMEM_TXN_S * II_MIN * 1.5 / 1e9,
     #         "Shared memory ceiling", fontsize=10, color=Color_setting["SMEM_ceiling"], va='bottom')
-    ax.hlines(PEAK_GIPS, xmin=knee_shared, xmax=AI_MAX,
+    ax.hlines(PEAK_GIPS, xmin=knee_shared, xmax=II_MAX,
             linestyles="-", color=Color_setting["c2_ceiling"], lw=2.4, label="Compute peak [GIPS]")
     #shared memory wall
     memory_walls = [1/32, 1.0]  # stride 8, stride 1, stride 0 (float)
@@ -242,7 +219,7 @@ def plot_from_counters_global(ax, ach):
     t_sec        = float(ach["kernel_execution_time"])
     inst_sum     = float(ach["thread_level_executed_instructions"]) / 32
 
-    ax.hlines(  ach["warp_level_executed_instructions"]/ ach["kernel_execution_time"] / 1e9, xmin=AI_MIN, xmax=AI_MAX,
+    ax.hlines(  ach["warp_level_executed_instructions"]/ ach["kernel_execution_time"] / 1e9, xmin=II_MIN, xmax=II_MAX,
                 linestyles=(0, (3, 3)), color=ach["color"], ls='-.', lw=2.4, label="warp-level achieved [GIPS]")
 
     gips_total = (inst_sum / t_sec) / 1e9  # y값
@@ -264,14 +241,14 @@ def plot_from_counters_global(ax, ach):
     if tx_l1 > 0:
         ax.scatter([global_inst / tx_l1], [gips_global], marker='o', facecolors='none', edgecolors=ach["color"], s=ach["size"], zorder=7)
 
-    for level, ai_pt, gips_pt in pts:
-        ax.scatter([ai_pt], [gips_pt],
+    for level, ii_pt, gips_pt in pts:
+        ax.scatter([ii_pt], [gips_pt],
                    s=ach.get("size", 56),
                    marker=level_markers.get(level, "D"),
                    c=ach.get("color", "#444"),
                    edgecolors="white", linewidths=0.9, zorder=7)
         # ax.annotate(f'{ach.get("label_prefix","achieved")}@{level}',
-        #             (ai_pt, gips_pt),
+        #             (ii_pt, gips_pt),
         #             fontsize=9, ha='left', va='bottom')
 
 def plot_from_counters_shared(ax, ach):
@@ -289,8 +266,8 @@ def plot_from_counters_shared(ax, ach):
     if tx_smem > 0 and shared_inst > 0:
         pts.append(("SMEM", shared_inst / tx_smem, gips_shared))
 
-    for level, ai_pt, gips_pt in pts:
-        ax.scatter([ai_pt], [gips_pt],
+    for level, ii_pt, gips_pt in pts:
+        ax.scatter([ii_pt], [gips_pt],
                    s=ach.get("size", 56),
                    marker=level_markers.get(level, "D"),
                    c=ach.get("color", "#444"),
