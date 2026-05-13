@@ -118,7 +118,7 @@ cd Instruction_Roofline_Analysis
 /bin/bash experiment.sh
 
 #6. Insert Kernel runtime
-Insert kernel runtime(result/*_result.csv) measured by experiment.sh into Roofline/draw_Roofline.py
+# Insert kernel runtime(result/*_result.csv) measured by experiment.sh into Roofline/draw_Roofline.py
 
 # 7. Draw Roofline
 python3 ./Roofline/draw_Roofline.py
