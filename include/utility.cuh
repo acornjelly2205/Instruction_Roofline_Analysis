@@ -130,7 +130,8 @@ float run_cuSparse(const CSR &lhs, const ARR &rhs, ARR &result)
     cusparseDestroyDnMat(C);
     cusparseDestroy(handle);    
 
-    return time / ITERATIONS; // Return average time per iteration
+    if(ITERATIONS == 0) return 0.0f; // Return average time per iteration
+    return time / ITERATIONS;
 
 }
 
@@ -191,7 +192,8 @@ float run_ginkgo(const CSR &lhs, const ARR &rhs, ARR &result)
     cudaEventDestroy(start);
     cudaEventDestroy(stop);
     
-    return elapsed_time / ITERATIONS; // Return average time per iteration
+    if (ITERATIONS == 0) return 0.0f; // Return average time per iteration
+    return elapsed_time / ITERATIONS;
 
 }
 

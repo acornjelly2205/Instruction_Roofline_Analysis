@@ -42,8 +42,8 @@
 #include "nvtx_helper.cuh"
 #include "utility.cuh"
 
-#define WARM_UP 100
-#define ITERATIONS 10
+// #define WARM_UP 100
+// #define ITERATIONS 10
 
 using namespace std;
 
@@ -180,18 +180,6 @@ int main(int argc, char *argv[])
     float avg_diff_bw = diff_bw / lhs.rows;
     logger.STD_BW = sqrt(avg_diff_bw);
 
-    float winner_time = logger.cusparse_time;
-    if(logger.ginkgo_time < winner_time)
-    {
-        winner_time = logger.ginkgo_time;
-        logger.winner = METHODS::GINKGO;
-    }
-    if(logger.kokkos_time < winner_time)
-    {
-        winner_time = logger.kokkos_time;
-        logger.winner = METHODS::KOKKOS;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////[]
 
 
@@ -222,10 +210,7 @@ int main(int argc, char *argv[])
     cout << "Kokkos Error: " << logger.kokkos_error << endl;
     cout << "Kokkos Result: " << (logger.kokkos_result == RESULTS::SUCCESS ? "SUCCESS" : "FAILURE") << endl;
     cout << endl << "===========================" << endl;
-    cout << "Winner: " << (logger.winner == METHODS::CUSPARSE ? "cuSPARSE" :
-                      (logger.winner == METHODS::GINKGO ? "Ginkgo" : "Kokkos")) << endl;
-    cout << "Winner Time: " << winner_time << " seconds" << endl;
-    cout << "===========================" << endl;  
+
 
     if (option.output_filename.length())
         logger.save_logfile();

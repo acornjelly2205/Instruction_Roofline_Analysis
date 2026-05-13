@@ -3,6 +3,9 @@
 // Original: https://doi.org/10.5281/zenodo.11579181
 // Changes: modification in validate function
 
+#pragma once
+
+
 #include "matrices.h"
 #include "definitions.h"
 

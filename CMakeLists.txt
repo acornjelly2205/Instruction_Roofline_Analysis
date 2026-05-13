@@ -23,6 +23,11 @@ find_library(NVTOOLSEXT nvToolsExt
   PATHS /usr/local/cuda/lib64 /usr/lib/x86_64-linux-gnu
   REQUIRED)
 
+set(NCU_WARM_UP    0   CACHE STRING "Warm-up iterations for NCU profiling")
+set(NCU_ITERATIONS 0   CACHE STRING "Measurement iterations for NCU profiling")
+set(TIME_WARM_UP   100   CACHE STRING "Warm-up iterations for timing")
+set(TIME_ITERATIONS 10 CACHE STRING "Measurement iterations for timing")
+
 # /////////////////////////////////////////////////
 
 add_executable(Time_spmm_cuSPARSE
@@ -70,4 +75,18 @@ foreach(TARGET NCU_spmm_cuSPARSE NCU_spmm_Ginkgo Time_spmm_cuSPARSE Time_spmm_Gi
   )
 endforeach()
 
+# NCU 타겟용
+foreach(TARGET NCU_spmm_cuSPARSE NCU_spmm_Ginkgo)
+  target_compile_definitions(${TARGET} PRIVATE
+    WARM_UP=${NCU_WARM_UP}
+    ITERATIONS=${NCU_ITERATIONS}
+  )
+endforeach()
 
+# Time 타겟용
+foreach(TARGET Time_spmm_cuSPARSE Time_spmm_Ginkgo)
+  target_compile_definitions(${TARGET} PRIVATE
+    WARM_UP=${TIME_WARM_UP}
+    ITERATIONS=${TIME_ITERATIONS}
+  )
+endforeach()

@@ -47,8 +47,8 @@
 #include "nvtx_helper.cuh"
 #include "utility.cuh"
 
-#define WARM_UP 0
-#define ITERATIONS 0
+// #define WARM_UP 0
+// #define ITERATIONS 0
 
 using namespace std;
 
@@ -226,10 +226,7 @@ int main(int argc, char *argv[])
     cout << "Kokkos Error: " << logger.kokkos_error << endl;
     cout << "Kokkos Result: " << (logger.kokkos_result == RESULTS::SUCCESS ? "SUCCESS" : "FAILURE") << endl;
     cout << endl << "===========================" << endl;
-    cout << "Winner: " << (logger.winner == METHODS::CUSPARSE ? "cuSPARSE" :
-                      (logger.winner == METHODS::GINKGO ? "Ginkgo" : "Kokkos")) << endl;
-    cout << "Winner Time: " << winner_time << " seconds" << endl;
-    cout << "===========================" << endl;  
+
 
     if (option.output_filename.length())
         logger.save_logfile();
